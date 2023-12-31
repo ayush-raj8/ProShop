@@ -1,7 +1,6 @@
 {
   "homepage": "https://ayush-raj8.github.io/ProShop",
   "name": "frontend",
-  "proxy": "http://localhost:8000",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
