@@ -1,0 +1,1 @@
+export const selectIncrementCounter = (state) => state.counter.count;

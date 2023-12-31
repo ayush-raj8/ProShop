@@ -1,0 +1,88 @@
+
+  
+  .icon-cart {
+    clear: left;
+    float: left;
+    width: 16%;
+    margin: 0 3%;
+    height: auto;
+    cursor: pointer;
+  }
+  
+  .cart {
+    fill: none;
+    stroke: #4d4d4d;
+    stroke-miterlimit: 10;
+    stroke-width: 2.0;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  
+  .color .cart {
+    transition: stroke 1s;
+  }
+  
+  .color:hover .cart {
+    stroke: #c7243a;
+  }
+  
+  .bold .cart {
+    stroke-width: .2;
+    transition: stroke-width 1s;
+  }
+  .bold:hover .cart {
+    stroke-width: 2.2;
+  }
+  
+  .hoverAnimation:hover .cart {
+    animation-duration: 5s;
+    animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1.0);
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+    animation-name: hoverShop;
+  }
+  
+  @keyframes hoverShop {
+    0% {
+      stroke-dasharray: 100 100;
+      stroke-dashoffset: 0;
+    }
+  
+    49.9% {
+      stroke-dasharray: 0 100;
+      stroke-dashoffset: 0;
+      opacity: 1;
+    }
+  
+    50% {
+      stroke-dasharray: 0 100;
+      stroke-dashoffset: 0;
+      opacity: 0;
+    }
+  
+    50.1% {
+      stroke-dasharray: 100 100;
+      opacity: 0;
+      stroke-dashoffset: -100;
+    }
+  
+    50.2% {
+      opacity: 1;
+      stroke-dashoffset: -100;
+    }
+    
+    100% {
+      stroke-dasharray: 100 100;
+      stroke-dashoffset: 0;
+    }
+  }
+  
+  .dashedLine .cart {
+    stroke-dasharray: 100 100;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  

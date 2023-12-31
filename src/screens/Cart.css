@@ -1,0 +1,92 @@
+/* Cart.css */
+
+
+.cart-container {
+  color: black; 
+}
+
+.cart-container.dark-mode {
+  color: white; 
+}
+
+.card-text {
+  color: black;
+}
+
+.card-text.dark-mode {
+  color: white; 
+}
+
+.custom-card {
+  margin-bottom: 10px;
+  border: 1px solid #ddd; 
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff; 
+  color: #333; 
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.custom-card.dark-mode {
+  border: 1px solid #000000; 
+  background-color: #333; 
+  color: white; 
+}
+
+.custom-card img {
+  width: auto;
+  max-height: 200px; /* Set your desired maximum height */
+  object-fit: cover; /* Maintain aspect ratio and cover the container */
+  border-top-left-radius: 8px;
+}
+
+.custom-card .card-content {
+  padding: 15px;
+}
+
+.custom-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.custom-card p {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.custom-card .quantity-dropdown {
+  background-color: #ffffff;
+  color : #000000;
+}
+
+.custom-card.custom-card.dark-mode .quantity-dropdown {
+  background-color: #333;
+  color : white;
+}
+
+.custom-card .delete-icon {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.total-price {
+  margin-top: 15px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.custom-card2:hover {
+  background-color: #f5f5f5;
+}
+
+.custom-card2.dark-mode:hover {
+  background-color: #555;
+}
+
+.custom-card img:hover {
+  opacity: 0.9;
+}
+
+.custom-card .delete-icon:hover {
+  color: #ff0000;
+}
