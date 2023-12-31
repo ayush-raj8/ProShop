@@ -24,7 +24,7 @@ function UserDropdown({ show, onHide }) {
 
   const handleProfile = () => {
     // Implement your profile page navigation logic here
-    window.open('/profile', '_blank', 'noopener noreferrer');
+    window.open('#/profile', '_blank', 'noopener noreferrer');
   };
 
   return (
