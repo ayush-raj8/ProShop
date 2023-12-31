@@ -3,7 +3,7 @@ import Header  from './components/Header'
 import Footer  from './components/Footer'
 import HomeScreen from './screens/HomeScreen'
 import ProductScreen  from './screens/ProductScreen'
-import {BrowserRouter as Router, Routes,Route  } from  'react-router-dom'
+import {BrowserRouter as Router, Routes,Route,HashRouter  } from  'react-router-dom'
 import SearchScreen from "./screens/SearchScreen";
 import React, {useEffect} from 'react'
 import { selectDarkModeStatus } from './redux/selectors/darkModeSelector';
@@ -22,7 +22,7 @@ function App() {
   const isDarkModeOn = useSelector(selectDarkModeStatus);
   
   return (
-    <Router >
+    <HashRouter >
       <Header />
       <main className='py-3' style={{ backgroundColor: isDarkModeOn ? 'black' : 'white', color: isDarkModeOn ? 'white' : 'black' }}>
         <Container >
@@ -43,7 +43,7 @@ function App() {
       </main> 
       <ColouredLines color={isDarkModeOn ? '#808080' : 'black'} backgroundColor={isDarkModeOn ? 'black' : 'white'} />
       <Footer />
-    </Router>
+    </HashRouter>
   );
 }
 
