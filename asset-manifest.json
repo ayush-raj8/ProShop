@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/ProShop/static/css/main.15a0da47.css",
-    "main.js": "/ProShop/static/js/main.38be2538.js",
+    "main.js": "/ProShop/static/js/main.8a1090dc.js",
     "static/js/703.dd222d96.chunk.js": "/ProShop/static/js/703.dd222d96.chunk.js",
     "static/js/379.e30d8a52.chunk.js": "/ProShop/static/js/379.e30d8a52.chunk.js",
     "static/js/787.9e9f4ffd.chunk.js": "/ProShop/static/js/787.9e9f4ffd.chunk.js",
     "index.html": "/ProShop/index.html",
     "main.15a0da47.css.map": "/ProShop/static/css/main.15a0da47.css.map",
-    "main.38be2538.js.map": "/ProShop/static/js/main.38be2538.js.map",
+    "main.8a1090dc.js.map": "/ProShop/static/js/main.8a1090dc.js.map",
     "703.dd222d96.chunk.js.map": "/ProShop/static/js/703.dd222d96.chunk.js.map",
     "379.e30d8a52.chunk.js.map": "/ProShop/static/js/379.e30d8a52.chunk.js.map",
     "787.9e9f4ffd.chunk.js.map": "/ProShop/static/js/787.9e9f4ffd.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.15a0da47.css",
-    "static/js/main.38be2538.js"
+    "static/js/main.8a1090dc.js"
   ]
 }
