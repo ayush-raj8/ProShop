@@ -107,10 +107,10 @@ function Cart() {
     const subtotal = calculateSubtotal();
     const totalBeforeTaxAndCharges = subtotal;
     const totalWithTax = (totalBeforeTaxAndCharges * (rules?.Tax || 0));
-    console.log(subtotal >= rules.DeliveryChargesOffAt)
-    const totalWithTaxAndDC = totalBeforeTaxAndCharges + totalWithTax + (subtotal >= rules.DeliveryChargesOffAt ? (0) : (rules.DeliveryCharges));
+    //console.log(subtotal >= rules.DeliveryChargesOffAt)
+    //const totalWithTaxAndDC = totalBeforeTaxAndCharges + totalWithTax + (subtotal >= rules.DeliveryChargesOffAt ? (0) : (rules.DeliveryCharges));
 
-    return totalWithTaxAndDC.toFixed(2);
+    return totalWithTax.toFixed(2);
   };
 
   const addToCart = (quantity=0,productId) => {
