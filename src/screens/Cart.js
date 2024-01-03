@@ -12,7 +12,7 @@ import LargeEmptyCart from '../components/LargeEmptyCart';
 import html2pdf from 'html2pdf.js';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-
+import { COLLECTIONS,STORAGES } from '../const';
 
 
 const concatenateAddress = (address) => {
@@ -63,8 +63,8 @@ function Cart() {
     const fetchCartDetails = async () => {
       const details = await Promise.all(
         Object.entries(cart).map(async ([productId, quantity]) => {
-          const productDetails = await readDocument('PRODUCTS', productId);
-          const productImage = await readDocumentWithImageUrl('PRODUCTIMAGES', productId);
+          const productDetails = await readDocument(COLLECTIONS.PRODUCTS, productId);
+          const productImage = await readDocumentWithImageUrl(STORAGES.PRODUCTIMAGES, productId);
           console.log("Yup", productDetails, productImage);
           return { productId, quantity, productImage, ...productDetails };
         })
@@ -98,7 +98,7 @@ function Cart() {
 
   const calculateSubtotal = () => {
     return cartDetails.reduce(
-      (total, { sizePriceMap, quantity }) => (total + sizePriceMap['S'] * quantity),
+      (total, { price, quantity }) => (total + price  * quantity),
       0
     );
   };
@@ -180,7 +180,7 @@ function Cart() {
           {cartDetails.length !== 0 && (
             <>
               <ul >
-                {cartDetails.map(({ productId, name, productImage, sizePriceMap, quantity }) => (
+                {cartDetails.map(({ productId, name, productImage, price, quantity }) => (
                   <Suspense fallback={<p>Loading cart items...</p>}>
                   <Row key={productId} >
                     <Col md={4}>
@@ -188,7 +188,7 @@ function Cart() {
                         <img
                           src={productImage}
                           alt={name}
-                          style={{ width: '100%' }} // Set width to 100% to fill the column
+                          style={{ maxHeight: '10rem' }} // Set width to 100% to fill the column
                         />
                       ) : (
                         <p>Loading image...</p>
@@ -197,7 +197,7 @@ function Cart() {
                     <Col md={8}>
                       <div >
                         <h2 style={{ color: isDarkModeOn ? 'white' : 'black' }}>{name}</h2>
-                        <p>Price for Size 'S': INR {sizePriceMap['S']}</p>
+                        <p>Price : $ {price }</p>
                         <p>
                           Quantity:
                           <select className="quantity-dropdown" defaultValue={quantity} onChange={(e) => addToCart(parseInt(e.target.value, 10),productId)}>
@@ -208,7 +208,7 @@ function Cart() {
                             ))}
                           </select>
                         </p>
-                        <p>Total: INR {(sizePriceMap['S'] * quantity) }</p>
+                        <p>Total: $ {(price  * quantity) }</p>
                         {
                           cartDetails.length>1?(
                             <btn className="delete-icon" onClick={(e) => removeFromCart(productId)}>Remove</btn>
@@ -245,8 +245,8 @@ function Cart() {
                       )}
                 
                     {rules ? (
-                      <div  style={{ maxWidth: '800px' }} >
-                      <Card bg={isDarkModeOn?"dark":"light"} style={{ maxWidth: '100%' }} ref={pdfRef}>
+                      <div  >
+                      <Card bg={isDarkModeOn?"dark":"light"} style={{minWidth:`40rem` }} ref={pdfRef}>
                         <Card.Header>
                           <Card.Title>CheckOut</Card.Title> 
                           {selectedAddress.length?(
@@ -259,47 +259,49 @@ function Cart() {
                           
                           
                         </Card.Header>
-                      <Card.Body>
-                      {cartDetails.map(({ productId, name, sizePriceMap, quantity }) => (
-                        <div key={productId} style={{ display: 'flex', justifyContent: 'space-between' , marginBottom: '0px' }}>
-                          <p>{name}</p>
-                          <p> INR {sizePriceMap['S']}*{quantity}</p>
-                          <p> INR {(sizePriceMap['S'] * quantity)}</p>
-                        </div>
-                      ))}
-                      <hr></hr>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                          <p className="total-price">Subtotal: </p>
-                          <p className="total-price">INR {calculateSubtotal()}</p>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                          <p className="total-price">Gst (18%): </p>
-                          <p className="total-price">INR {(rules.Tax * calculateSubtotal()).toFixed(2)}</p>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                          <p className="total-price">Delivery Fee: </p>
-                          <p className="total-price">INR {(calculateSubtotal()>=rules.DeliveryChargesOffAt ? (0) : (rules.DeliveryCharges))}</p>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                          <p className="total-price">Discount: </p>
-                          <p className="total-price">INR {rules?.discount || 0}</p>
-                        </div>
-                        <hr></hr>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                          <p className="total-price">Total Price: </p>
-                          <p className="total-price">INR {calculateTotalPrice()}</p>
-                        </div>
+                        <Card.Body>
+                          {cartDetails.map(({ productId, name,currency ,price, quantity }) => (
+                            <div key={productId} style={{ display: 'flex', justifyContent: 'space-between' }} >  
+                              <div style={{ textAlign: 'left' }}>
+                                <p>{name}</p>
+                              </div>
+                              
+                              <div style={{ textAlign: 'right' }}>
+                                <p style={{ display: 'inline-block', marginRight: '10px', fontStyle: 'italic', fontSize: '1rem'  }}> {currency}{price}*{quantity} = </p>
+                                <p style={{ display: 'inline-block' }}> {currency} {(price * quantity)}</p>
+                              </div>
+                            </div>
+                          ))}
+                          <hr></hr>
+                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                              <p className="total-price">Subtotal: </p>
+                              <p className="total-price">  $ {calculateSubtotal()}</p>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                              <p className="total-price">Tax (18%): </p>
+                              <p className="total-price">  $ {(rules.Tax * calculateSubtotal()).toFixed(2)}</p>
+                            </div>
+                            
+                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                              <p className="total-price">Discount: </p>
+                              <p className="total-price">  $ {rules?.discount || 0}</p>
+                            </div>
+                            <hr></hr>
+                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                              <p className="total-price">Total Price: </p>
+                              <p className="total-price">  $ {calculateTotalPrice()}</p>
+                            </div>
 
-                    
+                        
 
-                    </Card.Body>
-                    <Card.Footer>
-                    
-                    </Card.Footer>
+                        </Card.Body>
+                        <Card.Footer>
+                          <Button variant="info" >
+                            Pay & Place Order
+                          </Button>
+                        </Card.Footer>
                       </Card>
-                      <Button variant="info" disabled={!selectedAddress.length}>
-                      Pay & Place Order
-                    </Button>
+                      
                       <Button variant="info" hidden disabled={!selectedAddress.length} onClick={downloadPDF} >
                         Download PDF
                       </Button>

@@ -1,5 +1,5 @@
-.product-card {
-    max-height: 250rem;
+.product-card-img-upload {
+    max-width: 40rem;
     background: #fff;
     color: #000;
     transition: box-shadow 0.3s;
@@ -7,21 +7,21 @@
     border-radius: 0.75rem;
   }
   
-  .product-card-dark {
+  .product-card-img-upload-dark {
     border: 1px solid whitesmoke;
     box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.1);
   }
   
-  .product-card-dark:hover {
+  .product-card-img-upload-dark:hover {
     box-shadow: 0 1.5em 3em 0 whitesmoke, 0 0 1em rgba(255, 255, 0, 0.7);
   }
   
-  .product-card-light {
+  .product-card-img-upload-light {
     border: 1px solid #6c757d;
     box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.1);
   }
   
-  .product-card-light:hover {
+  .product-card-img-upload-light:hover {
     box-shadow: 0 1.5em 3em rgba(0, 0, 0, 0.2), 0 0 1em rgba(91, 91, 84, 0.7);
   }
   

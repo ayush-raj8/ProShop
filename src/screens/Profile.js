@@ -40,7 +40,9 @@ const Profile = () => {
         {/* Add more rows for other user properties if needed */}
       </tbody>
     </Table>
-    <Address/>
+    <div hidden>
+    <Address  />
+    </div >
     </>
   );
 };

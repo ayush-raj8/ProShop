@@ -7,6 +7,7 @@ import { db } from '../config';
 import { selectDarkModeStatus } from '../redux/selectors/darkModeSelector';
 import { useSelector } from 'react-redux';
 import { selectCart } from '../redux/selectors/cartSelector';
+import { COLLECTIONS,STORAGES } from '../const';
 
 const HomeScreen = () => {
   const [products, setProducts] = useState([]);
@@ -15,7 +16,8 @@ const HomeScreen = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const productsRef = collection(db, 'PRODUCTS');
+        console.log(COLLECTIONS.PRODUCTS)
+        const productsRef = collection(db, COLLECTIONS.PRODUCTS);
         const productsSnapshot = await getDocs(productsRef);
     
         let productsData = [];

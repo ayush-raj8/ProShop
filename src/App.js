@@ -17,6 +17,7 @@ import Seller from './screens/Seller'
 import ProtectedRoute from './utils/ProtectedRoute'
 import Cart from './screens/Cart'
 import Orders from './screens/Orders'
+import TextEditor from './components/TextEditor'
 
 function App() {
   const isDarkModeOn = useSelector(selectDarkModeStatus);
@@ -32,6 +33,7 @@ function App() {
             <Route path='/login' element= {<LoginPage/>}  />
             <Route path="/search/:searchQuery" element={<SearchScreen />} /> 
             <Route path="/loginLink" element={<LoggedIn />} /> 
+            <Route path='/editor' element={<TextEditor/>}/>
             <Route element={<ProtectedRoute />}>
               <Route path='/seller' element={<Seller/>}/>
               <Route path='/cart' element={<Cart/>}/>

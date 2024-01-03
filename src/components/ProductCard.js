@@ -1,5 +1,5 @@
 import React,{useEffect, useState } from 'react';
-import { Button, ButtonGroup } from 'react-bootstrap';
+import { Button, ButtonGroup ,Card, CardHeader} from 'react-bootstrap';
 import { selectDarkModeStatus } from '../redux/selectors/darkModeSelector';
 import { selectCart } from '../redux/selectors/cartSelector'; // Import the cart selector
 import { updateCartAction } from '../redux/actions/cartAction'; // Import the action to update the cart
@@ -9,6 +9,8 @@ import { storage } from '../config';
 import './ProductCard.css';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { COLLECTIONS,STORAGES } from '../const';
+import { readDocument, readDocumentWithImageUrl } from '../utils/firebaseUtils';
 
 function ProductCard ({ product, quantitySent=0 }){
     const dispatch = useDispatch();
@@ -32,40 +34,20 @@ function ProductCard ({ product, quantitySent=0 }){
     };
     useEffect(() => {
         // Fetch and set the studio icon URL using productId
-        if (productId) {
-          const storagePath = `PRODUCTIMAGES/${productId}`;
-          const folderRef = ref(storage, storagePath);
-    
-          try {
-            listAll(folderRef)
-              .then((result) => {
-                if (result.items.length > 0) {
-                  const firstFileRef = result.items[0];
-                  getDownloadURL(firstFileRef)
-                    .then((url) => {
-                      setProductUrl(url);
-                    })
-                    .catch((error) => {
-                      console.error('Error fetching studio icon:', error);
-                    });
-                } else {
-                  console.log('No files found in the folder.');
-                }
-              })
-              .catch((error) => {
-                console.error('Error listing files in the folder:', error);
-              });
-          } catch (error) {
-            console.error('Error fetching studio icon:', error);
-          }
+        const fetchData = async() => {
+        const productImageUrl = await readDocumentWithImageUrl(STORAGES.PRODUCTIMAGES, productId);
+        setProductUrl(productImageUrl)
         }
-      }, [productId,quantity]);
+        fetchData()
+        
+      }, [productId]);
       
       const addToCart = () => {
         if(quantity===0){
           alert("No items selected for cart")
           return
         }
+        localStorage.setItem("try",1)
         cart[productId] =quantity
         const updatedCart = cart
         console.log("Product Card ",updatedCart,cart)
@@ -94,40 +76,39 @@ function ProductCard ({ product, quantitySent=0 }){
       
       
       const cardClass = `mb-2 ${isDarkModeOn ? 'product-card product-card-dark' : 'product-card product-card-light'}`;
-  
-  
-  
+ 
       return (
 
-    <div className={cardClass} style={{  background: isDarkModeOn ? '#343a40' : '#fff', color: isDarkModeOn ? '#fff' : '#000' }}>
-      <div style={{ position: 'relative', padding: '1rem' }}>
-  <img src={productUrl} alt={product.name} style={{ width: '100%', height: 'auto' }} />
-    {quantity ? (
-      <div style={{ position: 'absolute', top: 0, right: 0, padding: '1rem',
-          cursor: 'pointer', backgroundColor: 'rgba(0, 0, 0, 1)', borderRadius: '50%',
-        }}
-        onClick={removeFromCart}
-      >
-          ❌
-        </div>
-      ) : (
-        ''
-      )}
-    </div>
+    <Card className={cardClass} style={{  background: isDarkModeOn ? '#343a40' : '#fff', color: isDarkModeOn ? '#fff' : '#000' }}>
+      <Card.Header style={{ position: 'relative', padding: '1rem' }}>
+        <Card.Img src={productUrl} alt={product.name} style={{ maxHeight: '15rem' , width: 'auto' }} />
+          {quantity ? (
+          <div style={{ position: 'absolute', top: 0, right: 0, padding: '1rem',
+              cursor: 'pointer', backgroundColor: 'rgba(0, 0, 0, 1)', borderRadius: '50%',
+            }}
+            onClick={removeFromCart}
+          >
+              ❌
+            </div>
+          ) : (
+            ''
+          )}
+      </Card.Header>
 
-      <div style={{ padding: '1rem' }}>
-        <p style={{color: isDarkModeOn ? '#fff' : '#000'}}>{product.name}</p>
-        <p style={{color: isDarkModeOn ? '#fff' : '#000', fontSize: '8px'}}>{product.id}</p>
-        <p style={{color: isDarkModeOn ? '#fff' : '#000'}}>₹{product.sizePriceMap['S']}</p>
+      <Card.Body style={{ padding: '1rem' }}>
+        <h6 style={{color: isDarkModeOn ? '#fff' : '#000'}}>{product.name}</h6>
+        <p style={{color: isDarkModeOn ? '#fff' : '#000'}}>{product.authors}</p>
+        <p style={{color: isDarkModeOn ? '#fff' : '#000'}}>{product.currency}{product.price}</p>
         <ButtonGroup variant="contained" style={{ alignItems: 'center', justifyContent: 'center', padding:'5px' }}>
           <Button style={{color: isDarkModeOn ? '#fff' : '#fff',background: isDarkModeOn ? '#000' : '#000'}}   onClick={handleDecrement}>-</Button>
           <Button style={{color: isDarkModeOn ? '#fff' : '#fff',background: isDarkModeOn ? '#808080' : '#808080'}} onClick={() => {}}>{quantity?quantity:"Add"}</Button>
           <Button style={{color: isDarkModeOn ? '#fff' : '#fff',background: isDarkModeOn ? '#000' : '#000'}}  onClick={handleIncrement}>+</Button>
         </ButtonGroup>
+      </Card.Body>
+      <Card.Footer>
         <Button variant='success' onClick={addToCart}>Add to Cart</Button>
-        
-      </div>
-    </div>
+      </Card.Footer>
+    </Card>
   );
 };
 

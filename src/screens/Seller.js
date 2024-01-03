@@ -6,16 +6,18 @@ import ProductForm from '../components/ProductForm'; // Adjust the path
 import { db } from '../config'; // Adjust the path
 import { selectDarkModeStatus } from '../redux/selectors/darkModeSelector';
 import { useSelector } from 'react-redux';
+import { COLLECTIONS,STORAGES } from '../const';
 
 function Seller() {
   const { currentUser } = useAuth();
   const [productsList, setProductsList] = useState([]);
   const [selectedProductId, setSelectedProductId] = useState(null);
+  const [update, setUpdate] = useState(false)
   const isDarkModeOn = useSelector(selectDarkModeStatus);
 
   const fetchData = async () => {
     try {
-      const productsRef = collection(db,'PRODUCTS');
+      const productsRef = collection(db,COLLECTIONS.PRODUCTS);
       const q = query(productsRef, where('createdBy', '==',currentUser.uid));
       const productsSnapshot = await getDocs(q);
 
@@ -46,6 +48,7 @@ function Seller() {
   const handleEdit = (productId) => {
     // Set the selected product ID to trigger the form update
     setSelectedProductId(productId);
+    setUpdate(true);
   };
 
   const handleUpdate = () => {
@@ -64,7 +67,7 @@ function Seller() {
             <Card.Body >
             <Card.Title >{selectedProductId ? 'Edit Product' : 'Add Products'}</Card.Title>
             <Card.Subtitle >{selectedProductId ? selectedProductId: ''}</Card.Subtitle>
-              <ProductForm productId={selectedProductId} onUpdate={handleUpdate} product={productsList.find((product) => product.id === selectedProductId)}/>
+              <ProductForm productId={selectedProductId} onUpdate={handleUpdate} update={update} product={productsList.find((product) => product.id === selectedProductId)}/>
             </Card.Body>
           </Card>
         </Col>
